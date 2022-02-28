@@ -18,7 +18,7 @@ class ProductsController extends Controller
     {
         return response()->json([
             'status' => 'ok',
-            'data' => Products::with('category')->get()
+            'data' => Products::with('categories')->get()
         ],200)->header('Content-Type', 'application/json');
     }
 

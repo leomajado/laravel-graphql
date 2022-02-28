@@ -17,6 +17,12 @@ type Query {
       "Filters by name. Accepts SQL LIKE wildcards `%` and `_`."
       name: String @where(operator: "like")
     ): [User!]! @paginate(defaultCount: 10)
+
+    product (id: ID @eq): Products @find
+    products: [Products!]! @all @softDeletes (type: "paginator" model: "App\\Models\\Products")
+
+    category (id: ID @eq): Categories @find
+    categories: [Categories!]! @all @softDeletes (type: "paginator" model: "App\\Models\\Categories")
 }
 
 type Mutation {
@@ -50,4 +56,19 @@ type User {
 
     "When the account was last updated."
     updated_at: DateTime!
+}
+
+type Products {
+    id: ID!
+    name: String!
+    code: Int!
+    description: String!
+    category_id: Int!
+    categories: Categories! @belongsTo(relation: "categories")
+}
+
+type Categories {
+    id: ID!
+    name: String!
+    description: String!
 }

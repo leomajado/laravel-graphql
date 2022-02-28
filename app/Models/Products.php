@@ -22,7 +22,7 @@ class Products extends Model
 
     protected $hidden = ['deleted_at'];
 
-    public function category(){
+    public function categories(){
         return $this->belongsTo(Categories::class,'category_id');
     }
 }
