@@ -35,6 +35,9 @@ type Mutation {
     socialLogin(input: SocialLoginInput! @spread): AuthPayload! @field(resolver: "Joselfonseca\\LighthouseGraphQLPassport\\GraphQL\\Mutations\\SocialLogin@resolve")
     verifyEmail(input: VerifyEmailInput! @spread): AuthPayload! @field(resolver: "Joselfonseca\\LighthouseGraphQLPassport\\GraphQL\\Mutations\\VerifyEmail@resolve")
     updatePassword(input: UpdatePassword! @spread): UpdatePasswordResponse! @field(resolver: "Joselfonseca\\LighthouseGraphQLPassport\\GraphQL\\Mutations\\UpdatePassword@resolve") @guard(with: ["api"])
+
+    product(input: ProductsInput! @spread): ProductResponse! @field(resolver: "App\\GraphQL\\Mutations\\Products@resolve") @guard(with: ["api"])
+    category(input: CategoriesInput! @spread): CategoryResponse! @field(resolver: "App\\GraphQL\\Mutations\\Categories@resolve") @guard(with: ["api"])
 }
 
 "Account of a person who utilizes this application."
@@ -67,8 +70,35 @@ type Products {
     categories: Categories! @belongsTo(relation: "categories")
 }
 
+input ProductsInput {
+    name: String! @rules(apply: ["required",string])
+    code: String! @rules(apply: ["required",string])
+    description: String! @rules(apply: ["required",string])
+    category_id: Int! @rules(apply: ["required",Int])
+}
+
+type ProductResponse{
+    id: Int!
+    name: String!
+    code: String!
+    description: String!
+    category_id: Int!
+}
+
 type Categories {
     id: ID!
     name: String!
     description: String!
 }
+
+input CategoriesInput {
+    name: String! @rules(apply: ["required",string])
+    description: String! @rules(apply: ["required",string])
+}
+
+type CategoryResponse{
+    id: Int!
+    name: String!
+    description: String!
+}
+

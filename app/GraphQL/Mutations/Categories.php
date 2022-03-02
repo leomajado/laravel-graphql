@@ -4,9 +4,9 @@ namespace App\GraphQL\Mutations;
 
 use GraphQL\Type\Definition\ResolveInfo;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
-use App\Models\Products as ProductModel;
+use App\Models\Categories as CategoriesModel;
 
-class Products
+class Categories
 {
     /**
      * Return a value for the field.
@@ -19,20 +19,16 @@ class Products
      */
     public function resolve($root, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
-        $p = new ProductModel;
-        $p->name = $args['name'];
-        $p->code = $args['code'];
-        $p->description = $args['description'];
-        $p->category_id = $args['category_id'];
-        $p->save();
+        $c = new CategoriesModel;
+        $c->name = $args['name'];
+        $c->description = $args['description'];
+        $c->save();
 
         return [
             'status' => 'SUCCESS',
-            'id' => $p->id,
-            'name' => $p->name,
-            'code' => $p->code,
-            'description' => $p->description,
-            'category_id' => $p->category_id,
+            'id' => $c->id,
+            'name' => $c->name,
+            'description' => $c->description
         ];
     }
 }
